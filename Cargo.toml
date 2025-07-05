@@ -3,6 +3,7 @@ resolver = "2"
 members = [
     "chap-1",
     "chap-2",
+    "chap-3",
 ]
 
 
