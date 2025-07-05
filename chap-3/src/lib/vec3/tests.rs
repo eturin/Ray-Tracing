@@ -108,7 +108,7 @@ fn test_ops() {
     let mut a = Vec3::new(1., 2., 3.);
     a[0] = 10.;
     let x = a[0];
-    assert_eq!(a[0], 10.);
+    assert_eq!(x, 10.);
 
     let b = -a;
     assert_eq!(b[0], -10.);

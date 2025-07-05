@@ -1,0 +1,14 @@
+[package]
+name = "chap-5-1"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "utils"
+path = "src/lib/lib.rs"
+
+[[bin]]
+name = "chap-5-1"
+path = "src/main.rs"
+
+[dependencies]
