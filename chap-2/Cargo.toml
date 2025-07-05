@@ -4,7 +4,11 @@ version = "0.1.0"
 edition = "2024"
 
 [lib]
-name = "lib"
+name = "utils"
 path = "src/lib/lib.rs"
+
+[[bin]]
+name = "chap-2"
+path = "src/main.rs"
 
 [dependencies]
