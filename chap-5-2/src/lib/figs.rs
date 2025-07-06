@@ -8,14 +8,9 @@ pub struct Figs {
 
 impl Figs {
     pub fn hit(&self, r: &Ray, tmin: f64, tmax: f64) -> Option<HitRecord> {
-        let mut hs = self
-            .v
+        self.v
             .iter()
-            .map(|fig| fig.hit(r, tmin, tmax))
-            .filter(Option::is_some)
-            .map(|x| x.unwrap())
-            .collect::<Vec<_>>();
-        hs.sort_by(|a, b| b.t.total_cmp(&a.t));
-        hs.pop()
+            .filter_map(|object| object.hit(r, tmin, tmax))
+            .min_by(|a, b| a.t.partial_cmp(&b.t).unwrap())
     }
 }
