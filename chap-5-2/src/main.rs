@@ -3,27 +3,19 @@ use {
         fs::File,
         io::{BufWriter, Write},
     },
+    utils::figs::Figs,
     utils::ray::Ray,
+    utils::sphere::Sphere,
     utils::vec3::Vec3,
 };
-fn hit_sphere(center: &Vec3, radius: f64, r: &Ray) -> f64 {
-    let oc = *r.origin() - *center;
-    let a = r.direction().dot(r.direction());
-    let b = 2. * oc.dot(r.direction());
-    let c = oc.dot(&oc) - radius * radius;
-    let d = b * b - 4. * a * c;
-
-    if d <= 0. {
-        -1.
-    } else {
-        (-b - d.sqrt()) / (2. * a)
-    }
-}
-fn color(r: &Ray) -> Vec3 {
-    let t = hit_sphere(&Vec3::new(0., 0., -1.), 0.5, r);
-    if t > 0. {
-        let n = (r.point_at_parametr(t) - Vec3::new(0., 0., -1.)).make_unit_vector();
-        return 0.5 * Vec3::new(n.x() + 1., n.y() + 1., n.z() + 1.);
+fn color(r: &Ray, world: &Figs) -> Vec3 {
+    if let Some(rec) = world.hit(r, 0., f64::MAX) {
+        return 0.5
+            * Vec3::new(
+                rec.normal.x() + 1.,
+                rec.normal.y() + 1.,
+                rec.normal.z() + 1.,
+            );
     }
 
     let unit_direction = r.direction().make_unit_vector();
@@ -37,6 +29,14 @@ fn render(buf_writer: &mut BufWriter<File>) -> Result<(), String> {
     let horizontal = Vec3::new(4., 0., 0.);
     let vertical = Vec3::new(0., 2., 0.);
     let origin = Vec3::default();
+
+    let mut world = Figs { v: Vec::new() };
+    world
+        .v
+        .push(Box::new(Sphere::new(Vec3::new(0., 0., -1.), 0.5)));
+    world
+        .v
+        .push(Box::new(Sphere::new(Vec3::new(0., -100.5, -1.), 100.)));
     if let Err(e) = write!(buf_writer, "P3\n{IMAGE_WIDTH} {IMAGE_HEIGHT}\n255\n") {
         return Err(format!("Ошибка записи в файл: {e:?}"));
     }
@@ -46,7 +46,7 @@ fn render(buf_writer: &mut BufWriter<File>) -> Result<(), String> {
             let v = j as f64 / IMAGE_HEIGHT as f64;
             // первый вектор остается в начале координат, второй - пробигает все точки на плоскости
             let r = Ray::new(origin, lower_left_corner + u * horizontal + v * vertical);
-            let col = color(&r);
+            let col = color(&r, &world);
 
             if let Err(e) = writeln!(
                 buf_writer,
