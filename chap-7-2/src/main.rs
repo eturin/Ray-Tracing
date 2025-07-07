@@ -12,7 +12,7 @@ use {
 };
 
 fn color(r: &Ray, world: &Figs) -> Vec3 {
-    if let Some(rec) = world.hit(r, 0., f64::MAX) {
+    if let Some(rec) = world.hit(r, 0.001, f64::MAX) {
         let target = rec.p + rec.normal + Vec3::random_in_unit_sphere();
         return 0.5 * color(&Ray::new(rec.p, target - rec.p), world);
     }
