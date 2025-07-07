@@ -32,6 +32,8 @@ fn render(buf_writer: &mut BufWriter<File>) -> Result<(), String> {
 
     let mut world = Figs { v: Vec::new() };
     world.v.push(Box::new(Sphere::new(Vec3::new(0., 0., -1.), 0.5)));
+    world.v.push(Box::new(Sphere::new(Vec3::new(2., 0., -3.), 0.5)));
+    world.v.push(Box::new(Sphere::new(Vec3::new(-2., 0., -3.), 0.5)));
     world.v.push(Box::new(Sphere::new(Vec3::new(0., -100.5, -1.), 100.)));
     let cam = Camera::default();
     if let Err(e) = write!(buf_writer, "P3\n{IMAGE_WIDTH} {IMAGE_HEIGHT}\n255\n") {
@@ -41,7 +43,7 @@ fn render(buf_writer: &mut BufWriter<File>) -> Result<(), String> {
     for j in (0..IMAGE_HEIGHT).rev() {
         for i in 0..IMAGE_WIDTH {
             let mut col = Vec3::default();
-            for s in 0..NS {
+            for _s in 0..NS {
                 let (random_a,random_b): (f64,f64) = (rng.random_range((0.0..1.0)), rng.random_range((0.0..1.0)));
                 let u = (i as f64 + random_a) / IMAGE_WIDTH as f64;
                 let v = (j as f64 + random_b) / IMAGE_HEIGHT as f64;
