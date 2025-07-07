@@ -1,12 +1,12 @@
 #[cfg(test)]
 mod tests;
 
+use rand::Rng;
 use std::io::{BufWriter, Write};
 use std::ops::{
     Add, AddAssign, Deref, DerefMut, Div, DivAssign, Index, IndexMut, Mul, MulAssign, Neg, Sub,
     SubAssign,
 };
-use rand::Rng;
 
 #[derive(Clone, Copy)]
 pub struct Vec3([f64; 3]);
@@ -36,11 +36,13 @@ impl Vec3 {
     pub fn random_in_unit_sphere() -> Self {
         let mut rng = rand::rng();
         loop {
-            let (x,y,z) = (rng.random_range(0.0..1.0),
-                                         rng.random_range(0.0..1.0),
-                                         rng.random_range(0.0..1.0));
-            if x*x + y*y + z*z <=1. {
-                break Vec3::new(x,y,z)
+            let (x, y, z) = (
+                rng.random_range(0.0..1.0),
+                rng.random_range(0.0..1.0),
+                rng.random_range(0.0..1.0),
+            );
+            if x * x + y * y + z * z <= 1. {
+                break Vec3::new(x, y, z);
             }
         }
     }

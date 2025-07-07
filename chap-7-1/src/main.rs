@@ -1,4 +1,5 @@
 use rand::Rng;
+use utils::camera::Camera;
 use {
     std::{
         fs::File,
@@ -9,12 +10,11 @@ use {
     utils::sphere::Sphere,
     utils::vec3::Vec3,
 };
-use utils::camera::Camera;
 
 fn color(r: &Ray, world: &Figs) -> Vec3 {
     if let Some(rec) = world.hit(r, 0., f64::MAX) {
         let target = rec.p + rec.normal + Vec3::random_in_unit_sphere();
-        return 0.5 * color( &Ray::new(rec.p, target - rec.p), world);
+        return 0.5 * color(&Ray::new(rec.p, target - rec.p), world);
     }
 
     let unit_direction = r.direction().make_unit_vector();
@@ -27,8 +27,12 @@ fn render(buf_writer: &mut BufWriter<File>) -> Result<(), String> {
     const NS: usize = 100;
 
     let mut world = Figs { v: Vec::new() };
-    world.v.push(Box::new(Sphere::new(Vec3::new(0., 0., -1.), 0.5)));
-    world.v.push(Box::new(Sphere::new(Vec3::new(0., -100.5, -1.), 100.)));
+    world
+        .v
+        .push(Box::new(Sphere::new(Vec3::new(0., 0., -1.), 0.5)));
+    world
+        .v
+        .push(Box::new(Sphere::new(Vec3::new(0., -100.5, -1.), 100.)));
     let cam = Camera::default();
     if let Err(e) = write!(buf_writer, "P3\n{IMAGE_WIDTH} {IMAGE_HEIGHT}\n255\n") {
         return Err(format!("Ошибка записи в файл: {e:?}"));
@@ -38,7 +42,8 @@ fn render(buf_writer: &mut BufWriter<File>) -> Result<(), String> {
         for i in 0..IMAGE_WIDTH {
             let mut col = Vec3::default();
             for _s in 0..NS {
-                let (random_a,random_b): (f64,f64) = (rng.random_range(0.0..1.0), rng.random_range(0.0..1.0));
+                let (random_a, random_b): (f64, f64) =
+                    (rng.random_range(0.0..1.0), rng.random_range(0.0..1.0));
                 let u = (i as f64 + random_a) / IMAGE_WIDTH as f64;
                 let v = (j as f64 + random_b) / IMAGE_HEIGHT as f64;
                 let r = cam.get_ray(u, v);
