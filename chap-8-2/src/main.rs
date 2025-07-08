@@ -12,6 +12,7 @@ use {
     utils::sphere::Sphere,
     utils::vec3::Vec3,
 };
+use utils::cone::Cone;
 
 fn color(r: &Ray, world: &Figs, depth: u8) -> Vec3 {
     // Базовый случай - превышена максимальная глубина рекурсии
@@ -43,11 +44,18 @@ fn render(buf_writer: &mut BufWriter<File>) -> Result<(), String> {
     const NS: usize = 100;
 
     let mut world = Figs { v: Vec::new() };
-    world.v.push(Box::new(Sphere::new(
+    world.v.push(Box::new(Cone::new(
+        Vec3::new(0., 1.5, -2.),
+        Vec3::new(0., -1., 0.),
+        std::f64::consts::PI/8.,
+        2.,
+        Some(Box::new(Metal::new(Vec3::new(0.4, 0.7, 0.3),0.1))),
+    )));
+    /*world.v.push(Box::new(Sphere::new(
         Vec3::new(0., 0., -1.),
         0.5,
         Some(Box::new(Lambertian::new(Vec3::new(0.8, 0.3, 0.3)))),
-    )));
+    )));*/
     world.v.push(Box::new(Sphere::new(
         Vec3::new(0., -100.5, -1.),
         100.,
