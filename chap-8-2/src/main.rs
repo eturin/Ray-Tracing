@@ -1,5 +1,6 @@
 use rand::Rng;
 use utils::camera::Camera;
+use utils::cone::Cone;
 use utils::lambertian::Lambertian;
 use utils::metal::Metal;
 use {
@@ -12,7 +13,6 @@ use {
     utils::sphere::Sphere,
     utils::vec3::Vec3,
 };
-use utils::cone::Cone;
 
 fn color(r: &Ray, world: &Figs, depth: u8) -> Vec3 {
     // Базовый случай - превышена максимальная глубина рекурсии
@@ -47,9 +47,9 @@ fn render(buf_writer: &mut BufWriter<File>) -> Result<(), String> {
     world.v.push(Box::new(Cone::new(
         Vec3::new(0., 1.5, -2.),
         Vec3::new(0., -1., 0.),
-        std::f64::consts::PI/8.,
+        std::f64::consts::PI / 8.,
         2.,
-        Some(Box::new(Metal::new(Vec3::new(0.4, 0.7, 0.3),0.1))),
+        Some(Box::new(Metal::new(Vec3::new(0.4, 0.7, 0.3), 0.1))),
     )));
     /*world.v.push(Box::new(Sphere::new(
         Vec3::new(0., 0., -1.),
