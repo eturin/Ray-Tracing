@@ -1,6 +1,6 @@
 use rand::Rng;
 use utils::camera::Camera;
-//use utils::cone::Cone;
+use utils::cone::Cone;
 use utils::dielectric::Dielectric;
 use utils::lambertian::Lambertian;
 use utils::metal::Metal;
@@ -40,23 +40,23 @@ fn color(r: &Ray, world: &Figs, depth: u8) -> Vec3 {
 }
 
 fn render(buf_writer: &mut BufWriter<File>) -> Result<(), String> {
-    const IMAGE_WIDTH: usize = 200;
-    const IMAGE_HEIGHT: usize = 100;
+    const IMAGE_WIDTH: usize = 1000;
+    const IMAGE_HEIGHT: usize = 500;
     const NS: usize = 100;
 
     let mut world = Figs { v: Vec::new() };
-    /*world.v.push(Box::new(Cone::new(
+    world.v.push(Box::new(Cone::new(
         Vec3::new(0., 1.5, -2.),
         Vec3::new(0., -1., 0.),
         std::f64::consts::PI / 8.,
         2.,
         Some(Box::new(Metal::new(Vec3::new(0.4, 0.7, 0.3), 0.1))),
-    )));*/
-    world.v.push(Box::new(Sphere::new(
+    )));
+    /*world.v.push(Box::new(Sphere::new(
         Vec3::new(0., 0., -1.),
         0.5,
         Some(Box::new(Lambertian::new(Vec3::new(0.1, 0.2, 0.5)))),
-    )));
+    )));*/
     world.v.push(Box::new(Sphere::new(
         Vec3::new(0., -100.5, -1.),
         100.,
