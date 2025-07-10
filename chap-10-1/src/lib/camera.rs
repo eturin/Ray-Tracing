@@ -8,13 +8,15 @@ pub struct Camera([Vec3; 4]);
 
 impl Camera {
     pub fn new(vfov: f64, aspect: f64) -> Self {
-        let theta = vfov*std::f64::consts::PI/180.;
-        let half_height = (theta/2.).tan();
+        let theta = vfov * std::f64::consts::PI / 180.;
+        let half_height = (theta / 2.).tan();
         let half_width = aspect * half_height;
-        Camera([Vec3::new(-half_width,-half_height, -1.),
-                Vec3::new(2.*half_width, 0.,0.),
-                Vec3::new(0.,2.*half_height,0.),
-                Vec3::new(0.,0.,0.)])
+        Camera([
+            Vec3::new(-half_width, -half_height, -1.),
+            Vec3::new(2. * half_width, 0., 0.),
+            Vec3::new(0., 2. * half_height, 0.),
+            Vec3::new(0., 0., 0.),
+        ])
     }
     pub fn lower_left_corner(&self) -> &Vec3 {
         &self.0[0]
@@ -36,5 +38,3 @@ impl Camera {
         )
     }
 }
-
-

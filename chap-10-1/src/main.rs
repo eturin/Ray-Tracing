@@ -45,7 +45,7 @@ fn render(buf_writer: &mut BufWriter<File>) -> Result<(), String> {
     const NS: usize = 10;
 
     let mut world = Figs { v: Vec::new() };
-    let r = (std::f64::consts::PI/4.).cos();
+    let r = (std::f64::consts::PI / 4.).cos();
     world.v.push(Box::new(Sphere::new(
         Vec3::new(-r, 0., -1.),
         r,
@@ -56,7 +56,7 @@ fn render(buf_writer: &mut BufWriter<File>) -> Result<(), String> {
         r,
         Some(Box::new(Lambertian::new(Vec3::new(1., 0., 0.)))),
     )));
-    let cam = Camera::new(90.,IMAGE_WIDTH as f64/IMAGE_HEIGHT as f64);
+    let cam = Camera::new(90., IMAGE_WIDTH as f64 / IMAGE_HEIGHT as f64);
     if let Err(e) = write!(buf_writer, "P3\n{IMAGE_WIDTH} {IMAGE_HEIGHT}\n255\n") {
         return Err(format!("Ошибка записи в файл: {e:?}"));
     }
