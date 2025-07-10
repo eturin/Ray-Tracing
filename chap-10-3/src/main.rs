@@ -76,12 +76,14 @@ fn render(buf_writer: &mut BufWriter<File>) -> Result<(), String> {
         Vec3::new(-1., 0., -1.),
         -0.45,
         Some(Box::new(Dielectric::new(1.5))),
-    )));;
-    let cam = Camera::new(Vec3::new(-2.,2.,1.),
-                          Vec3::new(0.,0.,-1.),
-                          Vec3::new(0.,1.,0.),
-                          25.,
-                          IMAGE_WIDTH as f64 / IMAGE_HEIGHT as f64);
+    )));
+    let cam = Camera::new(
+        Vec3::new(-2., 2., 1.),
+        Vec3::new(0., 0., -1.),
+        Vec3::new(0., 1., 0.),
+        25.,
+        IMAGE_WIDTH as f64 / IMAGE_HEIGHT as f64,
+    );
     if let Err(e) = write!(buf_writer, "P3\n{IMAGE_WIDTH} {IMAGE_HEIGHT}\n255\n") {
         return Err(format!("Ошибка записи в файл: {e:?}"));
     }

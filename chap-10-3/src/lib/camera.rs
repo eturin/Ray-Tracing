@@ -1,5 +1,3 @@
-
-
 use crate::ray::Ray;
 use crate::vec3::Vec3;
 
@@ -10,14 +8,13 @@ impl Camera {
         let theta = vfov * std::f64::consts::PI / 180.;
         let half_height = (theta / 2.).tan();
         let half_width = aspect * half_height;
-        let w = (lookfrom-lookat).make_unit_vector();
+        let w = (lookfrom - lookat).make_unit_vector();
         let u = vup.cross(&w).make_unit_vector();
         let v = w.cross(&u).make_unit_vector();
-        let mut lower_left_corner = Vec3::new(-half_width, -half_height, -1.);
-        lower_left_corner = lookfrom - half_width*u - half_height*v - w;
+        let lower_left_corner = lookfrom - half_width * u - half_height * v - w;
         Camera([
             lower_left_corner,
-            2.* half_width * u,
+            2. * half_width * u,
             2. * half_height * v,
             lookfrom,
         ])
