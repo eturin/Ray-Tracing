@@ -1,5 +1,3 @@
-#[cfg(test)]
-mod tests;
 
 use crate::ray::Ray;
 use crate::vec3::Vec3;
